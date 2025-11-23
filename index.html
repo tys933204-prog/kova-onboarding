@@ -106,7 +106,7 @@
 </head>
 <body>
     <div class="container">
-        <!-- Replace with your logo path -->
+
         <img src="logo.png" alt="Kova Logo" class="logo" />
 
         <h1>Let's get Kova ready for your store.</h1>
@@ -166,7 +166,7 @@
     </div>
 
     <script>
-        emailjs.init("REPLACE_WITH_YOUR_EMAILJS_PUBLIC_KEY");
+        emailjs.init("service_95b6q9d");
 
         document.getElementById('onboard-form').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -182,7 +182,7 @@
                 }
             });
 
-            await emailjs.send("service_kova", "template_onboarding", formData);
+            await emailjs.send("service_95b6q9d", "template_7jmliu9", formData);
 
             form.classList.add("hidden");
             document.getElementById("confirmation").classList.remove("hidden");
