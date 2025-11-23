@@ -166,7 +166,9 @@
     </div>
 
     <script>
-        emailjs.init("pgDwPzYmEhGvF9kRr");
+        emailjs.init({
+            publicKey: "pgDwPzYmEhGvF9kRr"
+        });
 
         document.getElementById('onboard-form').addEventListener('submit', async (e) => {
             e.preventDefault();
