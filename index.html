@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kova Onboarding</title>
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <style>
+        body {
+            background: #000;
+            color: #39ff14;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        img.logo {
+            width: 140px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            font-size: 26px;
+            margin-bottom: 25px;
+        }
+
+        form {
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            font-size: 15px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #39ff14;
+            border-radius: 4px;
+            background: #111;
+            color: #39ff14;
+            margin-top: 5px;
+        }
+
+        textarea {
+            height: 100px;
+        }
+
+        .multiselect {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .multiselect label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            width: 48%;
+            font-size: 14px;
+        }
+
+        .file-upload {
+            border: 1px dashed #39ff14;
+            padding: 15px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        button {
+            width: 100%;
+            background: #39ff14;
+            color: #000;
+            padding: 14px;
+            margin-top: 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .confirmation {
+            font-size: 20px;
+            margin-top: 50px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Replace with your logo path -->
+        <img src="logo.png" alt="Kova Logo" class="logo" />
+
+        <h1>Let's get Kova ready for your store.</h1>
+
+        <form id="onboard-form">
+            <label>Shopify Store URL</label>
+            <input type="url" name="store_url" required />
+
+            <label>Owner Name</label>
+            <input type="text" name="owner_name" required />
+
+            <label>Contact Email</label>
+            <input type="email" name="email" required />
+
+            <label>Brand Name</label>
+            <input type="text" name="brand_name" required />
+
+            <label>Preferred Contact Method</label>
+            <select name="contact_method" required>
+                <option>Email</option>
+                <option>SMS</option>
+                <option>Call</option>
+            </select>
+
+            <label>Number of Products</label>
+            <select name="product_count" required>
+                <option>Under 50</option>
+                <option>50–200</option>
+                <option>200+</option>
+            </select>
+
+            <label>Brand Style (select all that apply)</label>
+            <div class="multiselect">
+                <label><input type="checkbox" name="style" value="Streetwear"> Streetwear</label>
+                <label><input type="checkbox" name="style" value="Luxury"> Luxury</label>
+                <label><input type="checkbox" name="style" value="Y2K"> Y2K</label>
+                <label><input type="checkbox" name="style" value="Basics"> Basics</label>
+                <label><input type="checkbox" name="style" value="Athleisure"> Athleisure</label>
+                <label><input type="checkbox" name="style" value="Minimalist"> Minimalist</label>
+                <label><input type="checkbox" name="style" value="Other"> Other</label>
+            </div>
+
+            <label>Upload Inspiration (images or links)</label>
+            <input type="file" class="file-upload" multiple name="files">
+
+            <label>Optional Notes</label>
+            <textarea name="notes"></textarea>
+
+            <button type="submit">Submit</button>
+        </form>
+
+        <div id="confirmation" class="hidden confirmation">
+            <strong>Thanks — your onboarding details are locked in.</strong><br><br>
+            Your personal setup begins now.<br>
+            Expect a message from me within 24 hours.
+        </div>
+    </div>
+
+    <script>
+        emailjs.init("REPLACE_WITH_YOUR_EMAILJS_PUBLIC_KEY");
+
+        document.getElementById('onboard-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            let form = e.target;
+            let formData = {};
+
+            [...new FormData(form).entries()].forEach(([key, value]) => {
+                if (formData[key]) {
+                    formData[key] = formData[key] + ", " + value;
+                } else {
+                    formData[key] = value;
+                }
+            });
+
+            await emailjs.send("service_kova", "template_onboarding", formData);
+
+            form.classList.add("hidden");
+            document.getElementById("confirmation").classList.remove("hidden");
+        });
+    </script>
+</body>
+</html>
